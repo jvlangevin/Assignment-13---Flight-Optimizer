@@ -2,14 +2,14 @@ package assignment13;
 
 public class Flight {
 
-	Airport origin;
-	Airport destination;
-	String carrier;
-	int delay;
-	boolean canceled;
-	int time;
-	int distance;
-	double cost;
+	private Airport origin;
+	private Airport destination;
+	private String carrier;
+	private int delay;
+	private boolean canceled;
+	private int time;
+	private int distance;
+	private double cost;
 	
 	public Flight(Airport origin, Airport destination, String carrier, int delay, boolean canceled, int time, int distance, double cost){
 		

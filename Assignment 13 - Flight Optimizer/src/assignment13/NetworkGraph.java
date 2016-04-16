@@ -3,7 +3,10 @@
  */
 package assignment13;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * <p>This class represents a graph of flights and airports along with specific
@@ -45,6 +48,40 @@ public class NetworkGraph {
 	public NetworkGraph(String flightInfoPath) throws FileNotFoundException {
 		//TODO: Implement a constructor that reads in the file and stores the information
 		// 		appropriately in this object.
+		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
+		
+		try {
+			reader.readLine();
+
+			while(reader.ready()){
+				
+				String currentLine = reader.readLine();
+				String[] flightInfo = currentLine.split(",");
+				
+				Airport origin = new Airport(flightInfo[0]);
+				Airport destination = new Airport(flightInfo[1]);
+				String carrier = flightInfo[2];
+				int delay = Integer.parseInt(flightInfo[3]);
+				
+				boolean canceled;
+				if(Integer.parseInt(flightInfo[4]) == 1){
+					canceled = true;
+				}
+				else{
+					canceled = false;
+				}
+				
+				int time = Integer.parseInt(flightInfo[5]);
+				int distance = Integer.parseInt(flightInfo[6]);
+				double cost = Double.parseDouble(flightInfo[7]);
+				
+				Flight newFlight = new Flight(origin, destination, carrier, delay, canceled, time, distance, cost);
+				
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -99,4 +136,5 @@ public class NetworkGraph {
 		//TODO:
 		return null;
 	}
+	
 }
