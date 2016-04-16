@@ -13,5 +13,9 @@ public class Airport {
 		this.visited = false;
 		this.connections = new ArrayList<>();
 	}
-
+	
+	public String toString()
+	{
+		return this.code;
+	}
 }

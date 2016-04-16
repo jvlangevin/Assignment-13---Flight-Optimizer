@@ -4,9 +4,14 @@
 package assignment13;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * <p>This class represents a graph of flights and airports along with specific
@@ -27,6 +32,9 @@ import java.io.IOException;
  */
 public class NetworkGraph {
 
+	
+	private Map<String, Flight> flightHash;
+	
 	/**
 	 * <p>Constructs a NetworkGraph object and populates it with the information
 	 * contained in the given file. See the sample files or a randomly generated
@@ -49,6 +57,7 @@ public class NetworkGraph {
 		//TODO: Implement a constructor that reads in the file and stores the information
 		// 		appropriately in this object.
 		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
+		flightHash = new HashMap<String, Flight>();
 		
 		try {
 			reader.readLine();
@@ -71,11 +80,27 @@ public class NetworkGraph {
 					canceled = false;
 				}
 				
+				
 				int time = Integer.parseInt(flightInfo[5]);
 				int distance = Integer.parseInt(flightInfo[6]);
 				double cost = Double.parseDouble(flightInfo[7]);
 				
 				Flight newFlight = new Flight(origin, destination, carrier, delay, canceled, time, distance, cost);
+				
+				//use this to generate averages from origin to destination regardless of carrier
+				try {
+					flightHashAdd(newFlight);
+				} 
+				catch (Exception e) {
+					
+					e.printStackTrace();
+				}
+				
+				/*
+				 * Use this to generate averages from origin to destination by carrier
+				 * flightHash.put(""+origin.toString()+destination.toString()+carrier, newFlight);
+				 * 
+				 */
 				
 			}
 		}
@@ -135,6 +160,42 @@ public class NetworkGraph {
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria, String airliner) {
 		//TODO:
 		return null;
+	}
+	
+	
+	private void flightHashAdd(Flight inputFlight) throws Exception
+	{
+		String key = inputFlight.destinationString();
+		System.out.println(key);
+		
+			if(flightHash.get(key) == null){
+				flightHash.put(key, inputFlight);	
+			}
+			else{
+				Flight origFlight = flightHash.get(key);
+				System.out.println("Orig: "+origFlight.getOrigin() + " , " + origFlight.getDestination());
+				System.out.println("New: "+inputFlight.getOrigin() + " , " + inputFlight.getDestination());
+				System.out.println("Key: " +key);
+				flightHash.replace(key, origFlight.addFlights(inputFlight));
+			}
+		
+	}
+	
+	public void flightHashAverage()
+	{	
+		try {
+			File file = new File("FlightAverages.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			for(Flight flight : flightHash.values()){
+				fileWriter.write("Before Avg " + flight.toString() + '\n');	
+				flight.averageFlight();
+				fileWriter.write("After avg: "+ flight.toString() + '\n');
+			}
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

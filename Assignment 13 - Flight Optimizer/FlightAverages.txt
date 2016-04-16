@@ -1,0 +1,24 @@
+Before Avg HIA,YVT,[MQ],85.0,false,313.0,2160.0,220.56,1.0
+After avg: HIA,YVT,[MQ],85.0,false,313.0,2160.0,220.56,1.0
+Before Avg RUJ,YVT,[UA],38.0,true,140.0,967.0,428.91,1.0
+After avg: RUJ,YVT,[UA],38.0,true,140.0,967.0,428.91,1.0
+Before Avg YVT,RUJ,[DL],318.0,true,140.0,967.0,255.07,1.0
+After avg: YVT,RUJ,[DL],318.0,true,140.0,967.0,255.07,1.0
+Before Avg BHF,HIA,[EV, WN, HA, OO],591.0,false,1024.0,7084.0,2135.8900000000003,4.0
+After avg: BHF,HIA,[EV, WN, HA, OO],147.75,false,256.0,1771.0,533.9725000000001,1.0
+Before Avg RUJ,WWL,[AA],384.0,true,78.0,544.0,249.86,1.0
+After avg: RUJ,WWL,[AA],384.0,true,78.0,544.0,249.86,1.0
+Before Avg WWL,HIA,[OO],293.0,true,397.0,2742.0,970.58,1.0
+After avg: WWL,HIA,[OO],293.0,true,397.0,2742.0,970.58,1.0
+Before Avg WWL,BHF,[WN],114.0,false,128.0,889.0,439.62,1.0
+After avg: WWL,BHF,[WN],114.0,false,128.0,889.0,439.62,1.0
+Before Avg YVT,WWL,[DL],412.0,false,432.0,2987.0,370.12,1.0
+After avg: YVT,WWL,[DL],412.0,false,432.0,2987.0,370.12,1.0
+Before Avg HIA,WWL,[DL],388.0,false,397.0,2742.0,356.17,1.0
+After avg: HIA,WWL,[DL],388.0,false,397.0,2742.0,356.17,1.0
+Before Avg BHF,YVT,[OO],426.0,true,347.0,2401.0,874.75,1.0
+After avg: BHF,YVT,[OO],426.0,true,347.0,2401.0,874.75,1.0
+Before Avg WWL,YVT,[OO],212.0,true,432.0,2987.0,1039.43,1.0
+After avg: WWL,YVT,[OO],212.0,true,432.0,2987.0,1039.43,1.0
+Before Avg HIA,BHF,[UA],415.0,true,256.0,1771.0,619.24,1.0
+After avg: HIA,BHF,[UA],415.0,true,256.0,1771.0,619.24,1.0
