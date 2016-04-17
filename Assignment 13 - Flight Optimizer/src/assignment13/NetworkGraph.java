@@ -9,7 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +36,8 @@ import java.util.Map;
 public class NetworkGraph {
 
 	private Map<String, Flight> flightHash;
-
+	private Map<String, Airport> airports;
+	
 	/**
 	 * <p>
 	 * Constructs a NetworkGraph object and populates it with the information contained in the given file. See the
@@ -58,8 +61,11 @@ public class NetworkGraph {
 		// TODO: Implement a constructor that reads in the file and stores the information
 		// appropriately in this object.
 		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
-		flightHash = new HashMap<String, Flight>();
-
+		
+		
+		flightHash = new HashMap<String, Flight>(); //keep track of our flights (edges) key = origin name + , + destination name
+		airports = new HashMap<String, Airport>(); //keep track of our airports (nodes); key = origin name
+		
 		try {
 			reader.readLine();
 
@@ -68,8 +74,41 @@ public class NetworkGraph {
 				String currentLine = reader.readLine();
 				String[] flightInfo = currentLine.split(",");
 
-				Airport origin = new Airport(flightInfo[0]);
-				Airport destination = new Airport(flightInfo[1]);
+				Airport origin;
+				
+				//if the origin airport already exists, sets this origin to the existing airport to maintain list of connections
+				if(airports.containsKey(flightInfo[0]))
+				{
+					origin = airports.get(flightInfo[0]);
+				}
+				
+				//if origin airport doesn't already exist, creates it as a new airport
+				else{
+					origin = new Airport(flightInfo[0]);
+					airports.put(flightInfo[0], origin);
+				}
+				
+				//destination is also going to be an airport
+				Airport destination;		
+				
+				//so, if it already exists, don't create a new one, just reference the already
+				//existing one.
+				if(airports.containsKey(flightInfo[1]))
+				{
+					destination = airports.get(flightInfo[1]);
+				}
+				
+				//if it doesn't already exist, then create a new one and add it to our airport hash
+				else{
+					destination = new Airport(flightInfo[1]);
+					airports.put(flightInfo[1], destination);
+				}
+				
+				//add that destination as a connection to our origin
+				//since the connection is a list of references to other airports
+				//adding a connection to our destination later will maintain a network
+				//back to this origin as we progress, rather than create multiple airports
+				//with the same name but different destinations
 				origin.addConnection(destination);
 				
 				String carrier = flightInfo[2];
@@ -159,31 +198,59 @@ public class NetworkGraph {
 		return null;
 	}
 
+	
+	/**
+	 * Adds a flight to a hashmap for flights. If the flight path (origin to destination) 
+	 * already exists, it adds the flights together. See Flight.addFlights(Flight inputFlight) method.
+	 * 
+	 * @param inputFlight - the new flight we are attempting to store.
+	 * @throws Exception if we attempt to add two flights with mismatched flight paths. 
+	 */
 	private void flightHashAdd(Flight inputFlight) throws Exception {
 		String key = inputFlight.destinationString();
-		System.out.println(key);
+		//System.out.println(key);
 
 		if (flightHash.get(key) == null) {
 			flightHash.put(key, inputFlight);
 		}
 		else {
 			Flight origFlight = flightHash.get(key);
-			System.out.println("Orig: " + origFlight.getOrigin() + " , " + origFlight.getDestination());
-			System.out.println("New: " + inputFlight.getOrigin() + " , " + inputFlight.getDestination());
-			System.out.println("Key: " + key);
+			//if we are adding a new flight that has an existing origin to destination flight, print these so I can see the path
 			flightHash.replace(key, origFlight.addFlights(inputFlight));
 		}
 
 	}
 
+	/**
+	 * Writes to a file the Average values for a flight path as well as each airports destinations
+	 * and associated average flight details. Used to make sure our network is being built correctly
+	 */
 	public void flightHashAverage() {
 		try {
 			File file = new File("FlightAverages.txt");
 			FileWriter fileWriter = new FileWriter(file);
+			fileWriter.write("Flight Details: " + '\n');
 			for (Flight flight : flightHash.values()) {
 				fileWriter.write("Before Avg " + flight.toString() + '\n');
 				flight.averageFlight();
 				fileWriter.write("After avg: " + flight.toString() + '\n');
+			}
+			fileWriter.write('\n'+"Airport Destinations: "+ '\n');
+			for(Airport origin : airports.values())
+			{
+				fileWriter.write("Origin: " + origin.toString() + " Destinations: " + origin.listDestinations() + '\n');
+	
+				ArrayList<Airport> destinations = origin.getDestinations();
+				for(Airport destination : destinations)
+				{
+					Flight flight = flightHash.get(origin.toString()+","+destination.toString());
+					fileWriter.write(flight.toString() + '\n');
+				}
+			}
+			fileWriter.write('\n'+"HIA connections and their destinations: "+ '\n');
+			Airport HIA = airports.get("HIA");
+			for(Airport destination : HIA.getDestinations()){
+				fileWriter.write("Origin: " + destination.toString() + " Destinations: " + destination.listDestinations() + '\n');
 			}
 			fileWriter.flush();
 			fileWriter.close();
