@@ -126,14 +126,6 @@ public class NetworkGraph {
 					e.printStackTrace();
 				}
 								
-//				flightHash.
-
-				/*
-				 * Use this to generate averages from origin to destination by carrier
-				 * flightHash.put(""+origin.toString()+destination.toString()+carrier, newFlight);
-				 * 
-				 */
-
 			}
 			// Average out values for all flights having multiple carriers
 			for(Flight f : flightHash.values()){

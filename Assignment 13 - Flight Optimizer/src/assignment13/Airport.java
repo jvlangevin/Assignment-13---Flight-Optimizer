@@ -7,11 +7,13 @@ public class Airport {
 	private String code;
 	private boolean visited;
 	private ArrayList<Airport> connections;
+	private Airport previous;
 	
 	public Airport(String code){
 		this.code = code;
 		this.visited = false;
 		this.connections = new ArrayList<>();
+		this.previous = null;
 	}
 	
 	/**
@@ -53,6 +55,11 @@ public class Airport {
 	 */
 	public ArrayList<Airport> getDestinations(){
 		return connections;
+	}
+	
+	public void setPrevious(Airport airport){
+		
+		this.previous = airport;
 	}
 	
 }
