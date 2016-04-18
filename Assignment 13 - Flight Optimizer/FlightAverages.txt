@@ -1,49 +1,84 @@
 Flight Details: 
 Before Avg Origin: HIA,  Destination: YVT,  Carrier: [MQ],  Delay: 85.0,  Canceled: 0.0,  Time: 313.0,  Distance: 2160.0,  Cost: 220.56,  Flights: 1.0
+
 After avg: Origin: HIA,  Destination: YVT,  Carrier: [MQ],  Delay: 85.0,  Canceled: 0.0,  Time: 313.0,  Distance: 2160.0,  Cost: 220.56,  Flights: 1.0
+
 Before Avg Origin: RUJ,  Destination: YVT,  Carrier: [UA],  Delay: 38.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 428.91,  Flights: 1.0
+
 After avg: Origin: RUJ,  Destination: YVT,  Carrier: [UA],  Delay: 38.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 428.91,  Flights: 1.0
+
 Before Avg Origin: YVT,  Destination: RUJ,  Carrier: [DL],  Delay: 318.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 255.07,  Flights: 1.0
+
 After avg: Origin: YVT,  Destination: RUJ,  Carrier: [DL],  Delay: 318.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 255.07,  Flights: 1.0
-Before Avg Origin: BHF,  Destination: HIA,  Carrier: [EV, WN, HA, OO],  Delay: 591.0,  Canceled: 3.0,  Time: 1024.0,  Distance: 7084.0,  Cost: 2135.8900000000003,  Flights: 4.0
+
+Before Avg Origin: BHF,  Destination: HIA,  Carrier: [EV, WN, HA, OO],  Delay: 147.75,  Canceled: 0.75,  Time: 256.0,  Distance: 1771.0,  Cost: 533.9725000000001,  Flights: 1.0
+
 After avg: Origin: BHF,  Destination: HIA,  Carrier: [EV, WN, HA, OO],  Delay: 147.75,  Canceled: 0.75,  Time: 256.0,  Distance: 1771.0,  Cost: 533.9725000000001,  Flights: 1.0
+
 Before Avg Origin: RUJ,  Destination: WWL,  Carrier: [AA],  Delay: 384.0,  Canceled: 1.0,  Time: 78.0,  Distance: 544.0,  Cost: 249.86,  Flights: 1.0
+
 After avg: Origin: RUJ,  Destination: WWL,  Carrier: [AA],  Delay: 384.0,  Canceled: 1.0,  Time: 78.0,  Distance: 544.0,  Cost: 249.86,  Flights: 1.0
+
 Before Avg Origin: WWL,  Destination: HIA,  Carrier: [OO],  Delay: 293.0,  Canceled: 1.0,  Time: 397.0,  Distance: 2742.0,  Cost: 970.58,  Flights: 1.0
+
 After avg: Origin: WWL,  Destination: HIA,  Carrier: [OO],  Delay: 293.0,  Canceled: 1.0,  Time: 397.0,  Distance: 2742.0,  Cost: 970.58,  Flights: 1.0
+
 Before Avg Origin: WWL,  Destination: BHF,  Carrier: [WN],  Delay: 114.0,  Canceled: 0.0,  Time: 128.0,  Distance: 889.0,  Cost: 439.62,  Flights: 1.0
+
 After avg: Origin: WWL,  Destination: BHF,  Carrier: [WN],  Delay: 114.0,  Canceled: 0.0,  Time: 128.0,  Distance: 889.0,  Cost: 439.62,  Flights: 1.0
+
 Before Avg Origin: YVT,  Destination: WWL,  Carrier: [DL],  Delay: 412.0,  Canceled: 0.0,  Time: 432.0,  Distance: 2987.0,  Cost: 370.12,  Flights: 1.0
+
 After avg: Origin: YVT,  Destination: WWL,  Carrier: [DL],  Delay: 412.0,  Canceled: 0.0,  Time: 432.0,  Distance: 2987.0,  Cost: 370.12,  Flights: 1.0
+
 Before Avg Origin: HIA,  Destination: WWL,  Carrier: [DL],  Delay: 388.0,  Canceled: 0.0,  Time: 397.0,  Distance: 2742.0,  Cost: 356.17,  Flights: 1.0
+
 After avg: Origin: HIA,  Destination: WWL,  Carrier: [DL],  Delay: 388.0,  Canceled: 0.0,  Time: 397.0,  Distance: 2742.0,  Cost: 356.17,  Flights: 1.0
+
 Before Avg Origin: BHF,  Destination: YVT,  Carrier: [OO],  Delay: 426.0,  Canceled: 1.0,  Time: 347.0,  Distance: 2401.0,  Cost: 874.75,  Flights: 1.0
+
 After avg: Origin: BHF,  Destination: YVT,  Carrier: [OO],  Delay: 426.0,  Canceled: 1.0,  Time: 347.0,  Distance: 2401.0,  Cost: 874.75,  Flights: 1.0
+
 Before Avg Origin: WWL,  Destination: YVT,  Carrier: [OO],  Delay: 212.0,  Canceled: 1.0,  Time: 432.0,  Distance: 2987.0,  Cost: 1039.43,  Flights: 1.0
+
 After avg: Origin: WWL,  Destination: YVT,  Carrier: [OO],  Delay: 212.0,  Canceled: 1.0,  Time: 432.0,  Distance: 2987.0,  Cost: 1039.43,  Flights: 1.0
+
 Before Avg Origin: HIA,  Destination: BHF,  Carrier: [UA],  Delay: 415.0,  Canceled: 1.0,  Time: 256.0,  Distance: 1771.0,  Cost: 619.24,  Flights: 1.0
+
 After avg: Origin: HIA,  Destination: BHF,  Carrier: [UA],  Delay: 415.0,  Canceled: 1.0,  Time: 256.0,  Distance: 1771.0,  Cost: 619.24,  Flights: 1.0
+
 
 Airport Destinations: 
 Origin: HIA Destinations: [WWL, BHF, YVT]
 Origin: HIA,  Destination: WWL,  Carrier: [DL],  Delay: 388.0,  Canceled: 0.0,  Time: 397.0,  Distance: 2742.0,  Cost: 356.17,  Flights: 1.0
+
 Origin: HIA,  Destination: BHF,  Carrier: [UA],  Delay: 415.0,  Canceled: 1.0,  Time: 256.0,  Distance: 1771.0,  Cost: 619.24,  Flights: 1.0
+
 Origin: HIA,  Destination: YVT,  Carrier: [MQ],  Delay: 85.0,  Canceled: 0.0,  Time: 313.0,  Distance: 2160.0,  Cost: 220.56,  Flights: 1.0
+
 Origin: BHF Destinations: [HIA, YVT]
 Origin: BHF,  Destination: HIA,  Carrier: [EV, WN, HA, OO],  Delay: 147.75,  Canceled: 0.75,  Time: 256.0,  Distance: 1771.0,  Cost: 533.9725000000001,  Flights: 1.0
+
 Origin: BHF,  Destination: YVT,  Carrier: [OO],  Delay: 426.0,  Canceled: 1.0,  Time: 347.0,  Distance: 2401.0,  Cost: 874.75,  Flights: 1.0
+
 Origin: YVT Destinations: [RUJ, WWL]
 Origin: YVT,  Destination: RUJ,  Carrier: [DL],  Delay: 318.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 255.07,  Flights: 1.0
+
 Origin: YVT,  Destination: WWL,  Carrier: [DL],  Delay: 412.0,  Canceled: 0.0,  Time: 432.0,  Distance: 2987.0,  Cost: 370.12,  Flights: 1.0
+
 Origin: RUJ Destinations: [WWL, YVT]
 Origin: RUJ,  Destination: WWL,  Carrier: [AA],  Delay: 384.0,  Canceled: 1.0,  Time: 78.0,  Distance: 544.0,  Cost: 249.86,  Flights: 1.0
+
 Origin: RUJ,  Destination: YVT,  Carrier: [UA],  Delay: 38.0,  Canceled: 1.0,  Time: 140.0,  Distance: 967.0,  Cost: 428.91,  Flights: 1.0
+
 Origin: WWL Destinations: [YVT, HIA, BHF]
 Origin: WWL,  Destination: YVT,  Carrier: [OO],  Delay: 212.0,  Canceled: 1.0,  Time: 432.0,  Distance: 2987.0,  Cost: 1039.43,  Flights: 1.0
+
 Origin: WWL,  Destination: HIA,  Carrier: [OO],  Delay: 293.0,  Canceled: 1.0,  Time: 397.0,  Distance: 2742.0,  Cost: 970.58,  Flights: 1.0
+
 Origin: WWL,  Destination: BHF,  Carrier: [WN],  Delay: 114.0,  Canceled: 0.0,  Time: 128.0,  Distance: 889.0,  Cost: 439.62,  Flights: 1.0
 
+
 HIA connections and their destinations: 
-Origin: WWL Destinations: [YVT, HIA, BHF]
-Origin: BHF Destinations: [HIA, YVT]
+Origin: HIA Destinations: [WWL, BHF, YVT]
 Origin: YVT Destinations: [RUJ, WWL]

@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,7 +60,6 @@ public class NetworkGraph {
 		// TODO: Implement a constructor that reads in the file and stores the information
 		// appropriately in this object.
 		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
-		
 		
 		flightHash = new HashMap<String, Flight>(); //keep track of our flights (edges) key = origin name + , + destination name
 		airports = new HashMap<String, Airport>(); //keep track of our airports (nodes); key = origin name
@@ -127,6 +125,8 @@ public class NetworkGraph {
 				catch (Exception e) {
 					e.printStackTrace();
 				}
+								
+//				flightHash.
 
 				/*
 				 * Use this to generate averages from origin to destination by carrier
@@ -135,6 +135,11 @@ public class NetworkGraph {
 				 */
 
 			}
+			// Average out values for all flights having multiple carriers
+			for(Flight f : flightHash.values()){
+				f.averageFlight();
+			}
+
 		}
 		catch (IOException e) {
 			e.printStackTrace();

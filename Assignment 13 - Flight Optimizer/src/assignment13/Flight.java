@@ -68,7 +68,7 @@ public class Flight {
 
 		return "Origin: " + this.origin.toString() + ",  Destination: " + this.destination.toString() + ",  Carrier: "
 				+ this.carrier.toString() + ",  Delay: " + this.delay + ",  Canceled: " + this.canceled + ",  Time: " + this.time
-				+ ",  Distance: " + this.distance + ",  Cost: " + this.cost + ",  Flights: " + numFlights;
+				+ ",  Distance: " + this.distance + ",  Cost: " + this.cost + ",  Flights: " + numFlights + "\n";
 	}
 
 	/**
@@ -246,18 +246,13 @@ public class Flight {
 		this.canceled = canceled / numFlights;
 		this.numFlights = 1;
 	}
-
-	public static void main(String[] args) throws Exception {
-
-		Flight f1 = new Flight(new Airport("ZEF"), new Airport("SNF"), "UA", 31, 1, 236, 1631, 537.41);
-		Flight f2 = new Flight(new Airport("ZEF"), new Airport("SNF"), "OO", 219, 0, 236, 1631, 217.42);
-		Flight f3 = f1.addFlights(f2);
-		Flight f4 = new Flight(new Airport("ZEF"), new Airport("SNF"), "DL", 219, 0, 236, 1631, 217.42);
-		Flight f5 = f3.addFlights(f4);
-
-		f5.averageFlight();
-		System.out.println(f5.canceled);
-
+	
+	public Airport origin(){
+		return origin;
+	}
+	
+	public Airport destination(){
+		return destination;
 	}
 
 }
