@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -254,6 +255,36 @@ public class NetworkGraph {
 		}
 		catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	
+	public void airportsToDot(String dotFilename) {
+		try (PrintWriter out = new PrintWriter(dotFilename)) {
+			
+			ArrayList<Airport> graphedAirport = new ArrayList<Airport>();
+			ArrayList<Airport> getAirports = new ArrayList<Airport>();
+			String ret;
+			int label = 1;
+			out.println("digraph airports {\n\tnode [shape=record]\n");
+
+			getAirports.addAll(airports.values());
+			
+			for(Airport airport : getAirports)
+			{
+				ret = "\t" + airport.toString() + " [label = \"<f1> " + airport.toString() + " \"]\n";
+				for(Airport destination : airport.getDestinations())
+				{
+					ret += airport.toString() + " -> " + destination.toString()+":f1"+ "[label=\""+label+"\"]"+'\n';
+				}
+				out.println(ret);
+				label++;
+			}
+
+			out.println("}");
+		}
+		catch (IOException e) {
+			System.out.println(e);
 		}
 	}
 

@@ -80,5 +80,6 @@ Origin: WWL,  Destination: BHF,  Carrier: [WN],  Delay: 114.0,  Canceled: 0.0,  
 
 
 HIA connections and their destinations: 
-Origin: HIA Destinations: [WWL, BHF, YVT]
+Origin: WWL Destinations: [YVT, HIA, BHF]
+Origin: BHF Destinations: [HIA, YVT]
 Origin: YVT Destinations: [RUJ, WWL]
