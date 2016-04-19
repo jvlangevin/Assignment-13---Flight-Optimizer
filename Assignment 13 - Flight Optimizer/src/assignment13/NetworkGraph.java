@@ -37,7 +37,7 @@ public class NetworkGraph {
 
 	private Map<String, Flight> flightHash;
 	private Map<String, Airport> airports;
-	
+
 	/**
 	 * <p>
 	 * Constructs a NetworkGraph object and populates it with the information contained in the given file. See the
@@ -61,10 +61,11 @@ public class NetworkGraph {
 		// TODO: Implement a constructor that reads in the file and stores the information
 		// appropriately in this object.
 		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
-		
-		flightHash = new HashMap<String, Flight>(); //keep track of our flights (edges) key = origin name + , + destination name
-		airports = new HashMap<String, Airport>(); //keep track of our airports (nodes); key = origin name
-		
+
+		flightHash = new HashMap<String, Flight>(); // keep track of our flights (edges) key = origin name + , +
+													// destination name
+		airports = new HashMap<String, Airport>(); // keep track of our airports (nodes); key = origin name
+
 		try {
 			reader.readLine();
 
@@ -74,42 +75,41 @@ public class NetworkGraph {
 				String[] flightInfo = currentLine.split(",");
 
 				Airport origin;
-				
-				//if the origin airport already exists, sets this origin to the existing airport to maintain list of connections
-				if(airports.containsKey(flightInfo[0]))
-				{
+
+				// if the origin airport already exists, sets this origin to the existing airport to maintain list of
+				// connections
+				if (airports.containsKey(flightInfo[0])) {
 					origin = airports.get(flightInfo[0]);
 				}
-				
-				//if origin airport doesn't already exist, creates it as a new airport
-				else{
+
+				// if origin airport doesn't already exist, creates it as a new airport
+				else {
 					origin = new Airport(flightInfo[0]);
 					airports.put(flightInfo[0], origin);
 				}
-				
-				//destination is also going to be an airport
-				Airport destination;		
-				
-				//so, if it already exists, don't create a new one, just reference the already
-				//existing one.
-				if(airports.containsKey(flightInfo[1]))
-				{
+
+				// destination is also going to be an airport
+				Airport destination;
+
+				// so, if it already exists, don't create a new one, just reference the already
+				// existing one.
+				if (airports.containsKey(flightInfo[1])) {
 					destination = airports.get(flightInfo[1]);
 				}
-				
-				//if it doesn't already exist, then create a new one and add it to our airport hash
-				else{
+
+				// if it doesn't already exist, then create a new one and add it to our airport hash
+				else {
 					destination = new Airport(flightInfo[1]);
 					airports.put(flightInfo[1], destination);
 				}
-				
-				//add that destination as a connection to our origin
-				//since the connection is a list of references to other airports
-				//adding a connection to our destination later will maintain a network
-				//back to this origin as we progress, rather than create multiple airports
-				//with the same name but different destinations
+
+				// add that destination as a connection to our origin
+				// since the connection is a list of references to other airports
+				// adding a connection to our destination later will maintain a network
+				// back to this origin as we progress, rather than create multiple airports
+				// with the same name but different destinations
 				origin.addConnection(destination);
-				
+
 				String carrier = flightInfo[2];
 				int delay = Integer.parseInt(flightInfo[3]);
 				int canceled = Integer.parseInt(flightInfo[4]);
@@ -126,13 +126,13 @@ public class NetworkGraph {
 				catch (Exception e) {
 					e.printStackTrace();
 				}
-								
+
 			}
 			// Average out values for all flights having multiple carriers
-			for(Flight f : flightHash.values()){
+			for (Flight f : flightHash.values()) {
 				f.averageFlight();
 			}
-
+			reader.close();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -164,6 +164,23 @@ public class NetworkGraph {
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria) {
 		// TODO: First figure out what kind of path you need to get (HINT: Use a switch!) then
 		// Search for the shortest path using Dijkstra's algorithm.
+
+		ArrayList<String> path = new ArrayList<>();
+		double pathLength = 0;
+
+		switch (criteria.name()) {
+
+			case "COST":
+				break;
+			case "DELAY":
+				break;
+			case "DISTANCE":
+				break;
+			case "CANCELED":
+				break;
+			case "TIME":
+				break;
+		}
 		return null;
 	}
 
@@ -193,35 +210,53 @@ public class NetworkGraph {
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria, String airliner) {
 		// TODO:
+		ArrayList<String> path = new ArrayList<>();
+		double pathLength = 0;
+		
+		switch (criteria.name()) {
+
+			case "COST":
+				break;
+			case "DELAY":
+				break;
+			case "DISTANCE":
+				break;
+			case "CANCELED":
+				break;
+			case "TIME":
+				break;
+		}
 		return null;
 	}
 
-	
 	/**
-	 * Adds a flight to a hashmap for flights. If the flight path (origin to destination) 
-	 * already exists, it adds the flights together. See Flight.addFlights(Flight inputFlight) method.
+	 * Adds a flight to a hashmap for flights. If the flight path (origin to destination) already exists, it adds the
+	 * flights together. See Flight.addFlights(Flight inputFlight) method.
 	 * 
-	 * @param inputFlight - the new flight we are attempting to store.
-	 * @throws Exception if we attempt to add two flights with mismatched flight paths. 
+	 * @param inputFlight
+	 *            - the new flight we are attempting to store.
+	 * @throws Exception
+	 *             if we attempt to add two flights with mismatched flight paths.
 	 */
 	private void flightHashAdd(Flight inputFlight) throws Exception {
 		String key = inputFlight.destinationString();
-		//System.out.println(key);
+		// System.out.println(key);
 
 		if (flightHash.get(key) == null) {
 			flightHash.put(key, inputFlight);
 		}
 		else {
 			Flight origFlight = flightHash.get(key);
-			//if we are adding a new flight that has an existing origin to destination flight, print these so I can see the path
+			// if we are adding a new flight that has an existing origin to destination flight, print these so I can see
+			// the path
 			flightHash.replace(key, origFlight.addFlights(inputFlight));
 		}
 
 	}
 
 	/**
-	 * Writes to a file the Average values for a flight path as well as each airports destinations
-	 * and associated average flight details. Used to make sure our network is being built correctly
+	 * Writes to a file the Average values for a flight path as well as each airports destinations and associated
+	 * average flight details. Used to make sure our network is being built correctly
 	 */
 	public void flightHashAverage() {
 		try {
@@ -233,21 +268,19 @@ public class NetworkGraph {
 				flight.averageFlight();
 				fileWriter.write("After avg: " + flight.toString() + '\n');
 			}
-			fileWriter.write('\n'+"Airport Destinations: "+ '\n');
-			for(Airport origin : airports.values())
-			{
+			fileWriter.write('\n' + "Airport Destinations: " + '\n');
+			for (Airport origin : airports.values()) {
 				fileWriter.write("Origin: " + origin.toString() + " Destinations: " + origin.listDestinations() + '\n');
-	
+
 				ArrayList<Airport> destinations = origin.getDestinations();
-				for(Airport destination : destinations)
-				{
-					Flight flight = flightHash.get(origin.toString()+","+destination.toString());
+				for (Airport destination : destinations) {
+					Flight flight = flightHash.get(origin.toString() + "," + destination.toString());
 					fileWriter.write(flight.toString() + '\n');
 				}
 			}
-			fileWriter.write('\n'+"HIA connections and their destinations: "+ '\n');
+			fileWriter.write('\n' + "HIA connections and their destinations: " + '\n');
 			Airport HIA = airports.get("HIA");
-			for(Airport destination : HIA.getDestinations()){
+			for (Airport destination : HIA.getDestinations()) {
 				fileWriter.write("Origin: " + destination.toString() + " Destinations: " + destination.listDestinations() + '\n');
 			}
 			fileWriter.flush();
@@ -257,11 +290,10 @@ public class NetworkGraph {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void airportsToDot(String dotFilename) {
 		try (PrintWriter out = new PrintWriter(dotFilename)) {
-			
+
 			ArrayList<Airport> graphedAirport = new ArrayList<Airport>();
 			ArrayList<Airport> getAirports = new ArrayList<Airport>();
 			String ret;
@@ -269,13 +301,11 @@ public class NetworkGraph {
 			out.println("digraph airports {\n\tnode [shape=record]\n");
 
 			getAirports.addAll(airports.values());
-			
-			for(Airport airport : getAirports)
-			{
+
+			for (Airport airport : getAirports) {
 				ret = "\t" + airport.toString() + " [label = \"<f1> " + airport.toString() + " \"]\n";
-				for(Airport destination : airport.getDestinations())
-				{
-					ret += airport.toString() + " -> " + destination.toString()+":f1"+ "[label=\""+label+"\"]"+'\n';
+				for (Airport destination : airport.getDestinations()) {
+					ret += airport.toString() + " -> " + destination.toString() + ":f1" + "[label=\"" + label + "\"]" + '\n';
 				}
 				out.println(ret);
 				label++;

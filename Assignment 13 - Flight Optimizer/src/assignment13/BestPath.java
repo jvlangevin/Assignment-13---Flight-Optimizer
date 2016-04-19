@@ -30,6 +30,31 @@ public class BestPath {
 	 */
 	private double pathLength;
 
+	public BestPath(){
+		this.path = new ArrayList<String>();
+	}
+	
+	public BestPath(ArrayList<String> path, double pathLength){
+		this.path = path;
+		this.pathLength = pathLength;
+	}
+	
+	public ArrayList<String> getPath(){
+		return this.path;
+	}
+	
+	public double getPathLength(){
+		return this.pathLength;
+	}
+	
+	public void setPath(ArrayList<String> newPath){
+		this.path = newPath;
+	}
+	
+	public void setPathLength(double newLength){
+		this.pathLength = newLength;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof BestPath) {
