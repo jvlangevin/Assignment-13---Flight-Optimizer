@@ -66,6 +66,17 @@ public class Airport implements Comparable{
 		return connections;
 	}
 	
+	/**
+	 * Returns the airport that was visited immediately prior to this airport.
+	 */
+	public Airport previous(){
+		return this.previous;
+	}
+	
+	/**
+	 * Designates the specified airport as the one that was visited prior to this airport.
+	 * @param airport - the most recent airport visited prior to this airport
+	 */
 	public void setPrevious(Airport airport){
 		
 		this.previous = airport;
@@ -115,9 +126,4 @@ public class Airport implements Comparable{
 		}
 	}
 
-	
-	
-
-
-	
 }

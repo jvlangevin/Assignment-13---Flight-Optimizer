@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import sun.net.www.content.audio.aiff;
 
 /**
  * <p>
@@ -166,29 +167,29 @@ public class NetworkGraph {
 		// TODO: First figure out what kind of path you need to get (HINT: Use a switch!) then
 		// Search for the shortest path using Dijkstra's algorithm.
 
-		double pathLength = 0;
+		if(origin == null || destination == null){
+			ArrayList<String> al = new ArrayList<>();
+			al.add(origin);
+			al.add(destination);
+			return new BestPath(al, 0);
+		}
 		
 		ArrayList<String> path = new ArrayList<>();
-		
-		
 		Airport start = null;
 		Airport goal = null;
 		
-		
 		for(Airport airport : airports.values()){
-			if(airport.toString() == origin){
+			if(airport.toString().equals(origin)){
 				start = airport;
 			}
-			if(airport.toString() == destination){
+			if(airport.toString().equals(destination)){
 				goal = airport;
 			}	
 		}
 		
 		if(start == null || goal == null)
 		{
-			//TODO
-			//some time of error handling since this would 
-			//infer that the start or goal is not one of our airports
+			return new BestPath();
 		}
 		
 		
@@ -205,11 +206,12 @@ public class NetworkGraph {
 			
 			Airport current = pq.remove();
 			
-			
 			if(current.equals(goal)){
-				//this is where I think we should begin to add the path in reverse using the previous variable in airport
-				//path.add(current.toString());??
-				
+				double pathLength = current.cost();
+				while(current.previous() != null){
+					path.add(1, current.toString());
+					current = current.previous();
+				}
 				BestPath bp = new BestPath(path, pathLength);
 				return bp;
 			}
@@ -239,20 +241,6 @@ public class NetworkGraph {
 			}
 		}
 		
-
-//		switch (criteria.name()) {
-//
-//			case "COST":
-//				break;
-//			case "DELAY":
-//				break;
-//			case "DISTANCE":
-//				break;
-//			case "CANCELED":
-//				break;
-//			case "TIME":
-//				break;
-//		}
 		return null;
 	}
 
@@ -375,8 +363,4 @@ public class NetworkGraph {
 		}
 	}
 	
-	public static void main(String[] args){
-		
-	}
-
 }

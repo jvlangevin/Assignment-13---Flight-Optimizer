@@ -31,7 +31,7 @@ public class BestPath {
 	private double pathLength;
 
 	public BestPath(){
-		this.path = new ArrayList<String>();
+		this.path = new ArrayList<>();
 	}
 	
 	public BestPath(ArrayList<String> path, double pathLength){
