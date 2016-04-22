@@ -254,5 +254,27 @@ public class Flight {
 	public Airport destination(){
 		return destination;
 	}
+	
+	/**
+	 * Returns the weight value of this flight based on the specified flight attribute.
+	 * @param attr - a flight attribute that will serve as the weight value for this flight
+	 */
+	public double getWeight(String attr){
+		
+		switch(attr){
+			
+			case "COST":
+				return this.cost;
+			case "DELAY":
+				return this.delay;
+			case "DISTANCE":
+				return this.distance;
+			case "CANCELED":
+				return this.canceled;
+			case "TIME":
+				return this.time;
+		}
+		return 0;
+	}
 
 }

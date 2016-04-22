@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  * <p>
@@ -165,22 +166,60 @@ public class NetworkGraph {
 		// TODO: First figure out what kind of path you need to get (HINT: Use a switch!) then
 		// Search for the shortest path using Dijkstra's algorithm.
 
-		ArrayList<String> path = new ArrayList<>();
 		double pathLength = 0;
-
-		switch (criteria.name()) {
-
-			case "COST":
-				break;
-			case "DELAY":
-				break;
-			case "DISTANCE":
-				break;
-			case "CANCELED":
-				break;
-			case "TIME":
-				break;
+		
+		ArrayList<String> path = new ArrayList<>();
+		path.add(origin);
+		
+		Airport start = null;
+		Airport goal = null;
+		
+		for(Airport airport : airports.values()){
+			if(airport.toString() == origin){
+				start = airport;
+			}
+			if(airport.toString() == destination){
+				goal = airport;
+			}
 		}
+		
+		PriorityQueue<Airport> pq = new PriorityQueue<>();
+		pq.add(start);
+		
+		while(!pq.isEmpty()){
+			
+			Airport current = pq.remove();
+			
+			if(current.equals(goal)){
+				BestPath bp = new BestPath(path, pathLength);
+				return bp;
+			}
+			
+			current.setVisited();
+			
+			for(Airport neighbor : current.connections()){
+				
+				Flight flight = flightHash.get(neighbor.toString());
+				if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name())){
+					neighbor.setPrevious(current);
+				}
+			}
+		}
+		
+
+//		switch (criteria.name()) {
+//
+//			case "COST":
+//				break;
+//			case "DELAY":
+//				break;
+//			case "DISTANCE":
+//				break;
+//			case "CANCELED":
+//				break;
+//			case "TIME":
+//				break;
+//		}
 		return null;
 	}
 
@@ -210,22 +249,7 @@ public class NetworkGraph {
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria, String airliner) {
 		// TODO:
-		ArrayList<String> path = new ArrayList<>();
-		double pathLength = 0;
 		
-		switch (criteria.name()) {
-
-			case "COST":
-				break;
-			case "DELAY":
-				break;
-			case "DISTANCE":
-				break;
-			case "CANCELED":
-				break;
-			case "TIME":
-				break;
-		}
 		return null;
 	}
 
@@ -316,6 +340,10 @@ public class NetworkGraph {
 		catch (IOException e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static void main(String[] args){
+		
 	}
 
 }

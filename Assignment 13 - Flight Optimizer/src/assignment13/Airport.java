@@ -8,12 +8,21 @@ public class Airport {
 	private boolean visited;
 	private ArrayList<Airport> connections;
 	private Airport previous;
+	private double cost;
 	
 	public Airport(String code){
 		this.code = code;
 		this.visited = false;
 		this.connections = new ArrayList<>();
 		this.previous = null;
+		this.cost = Double.MAX_VALUE;
+	}
+	
+	/**
+	 * Returns the connections list for this airport.
+	 */
+	public ArrayList<Airport> connections(){
+		return this.connections;
 	}
 	
 	/**
@@ -60,6 +69,35 @@ public class Airport {
 	public void setPrevious(Airport airport){
 		
 		this.previous = airport;
+	}
+	
+	/**
+	 * @return - true if this airport has been visited, false otherwise
+	 */
+	public boolean visited(){
+		return this.visited;
+	}
+	
+	/**
+	 * Marks this airport as visited.
+	 */
+	public void setVisited(){
+		this.visited = true;
+	}
+	
+	/**
+	 * Returns the current cost value of this airport.
+	 */
+	public double cost(){
+		return this.cost;
+	}
+	
+	/**
+	 * Sets the cost value of this airport to the specified value.
+	 * @param newCost
+	 */
+	public void setCost(double newCost){
+		this.cost = newCost;
 	}
 	
 }
