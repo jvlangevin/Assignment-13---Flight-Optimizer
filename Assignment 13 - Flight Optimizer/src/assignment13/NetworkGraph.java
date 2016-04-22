@@ -169,10 +169,11 @@ public class NetworkGraph {
 		double pathLength = 0;
 		
 		ArrayList<String> path = new ArrayList<>();
-		path.add(origin);
+		
 		
 		Airport start = null;
 		Airport goal = null;
+		
 		
 		for(Airport airport : airports.values()){
 			if(airport.toString() == origin){
@@ -180,17 +181,35 @@ public class NetworkGraph {
 			}
 			if(airport.toString() == destination){
 				goal = airport;
-			}
+			}	
 		}
 		
+		if(start == null || goal == null)
+		{
+			//TODO
+			//some time of error handling since this would 
+			//infer that the start or goal is not one of our airports
+		}
+		
+		
+		//only add after we verify that there is a origin and destination in our graph
+		path.add(start.toString());
+		
 		PriorityQueue<Airport> pq = new PriorityQueue<>();
+		
+		//set start cost to 0
+		start.setCost(0);
 		pq.add(start);
 		
 		while(!pq.isEmpty()){
 			
 			Airport current = pq.remove();
 			
+			
 			if(current.equals(goal)){
+				//this is where I think we should begin to add the path in reverse using the previous variable in airport
+				//path.add(current.toString());??
+				
 				BestPath bp = new BestPath(path, pathLength);
 				return bp;
 			}
@@ -199,9 +218,23 @@ public class NetworkGraph {
 			
 			for(Airport neighbor : current.connections()){
 				
-				Flight flight = flightHash.get(neighbor.toString());
-				if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name())){
-					neighbor.setPrevious(current);
+				if(!neighbor.visited()){
+					Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
+					if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name())){
+						
+						neighbor.setPrevious(current);
+						neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
+						
+						//update priority? since priority is determined by cost
+						//re-entering into queue updates it's priority?
+						//or does updating the cost itself change it's priority?
+						if(pq.contains(neighbor))
+						{
+							pq.remove(neighbor);							
+						}
+						pq.add(neighbor);
+						
+					}
 				}
 			}
 		}

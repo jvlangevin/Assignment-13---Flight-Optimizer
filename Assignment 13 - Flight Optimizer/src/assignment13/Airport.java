@@ -2,7 +2,7 @@ package assignment13;
 
 import java.util.ArrayList;
 
-public class Airport {
+public class Airport implements Comparable{
 	
 	private String code;
 	private boolean visited;
@@ -99,5 +99,25 @@ public class Airport {
 	public void setCost(double newCost){
 		this.cost = newCost;
 	}
+
+	@Override
+	public int compareTo(Object o) {
+		//to allow override, param is an object
+		
+		//cast o, an object, as an aiport.
+		Airport destination = (Airport)o;
+		if(this.cost() < destination.cost()){
+			return -1;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
+	
+	
+
+
 	
 }
