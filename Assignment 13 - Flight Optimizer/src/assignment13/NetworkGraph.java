@@ -60,7 +60,6 @@ public class NetworkGraph {
 	 *             The only exception that can be thrown in this assignment and only if a file is not found.
 	 */
 	public NetworkGraph(String flightInfoPath) throws FileNotFoundException{
-		// TODO: Implement a constructor that reads in the file and stores the information
 		// appropriately in this object.
 		BufferedReader reader = new BufferedReader(new FileReader(flightInfoPath));
 
@@ -222,6 +221,7 @@ public class NetworkGraph {
 				
 				if(!neighbor.visited()){
 					Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
+					//insert flight.average here?
 					if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name())){
 						
 						neighbor.setPrevious(current);
@@ -241,7 +241,7 @@ public class NetworkGraph {
 			}
 		}
 		
-		return null;
+		return new BestPath();
 	}
 
 	/**
@@ -269,9 +269,80 @@ public class NetworkGraph {
 	 * @return - An object containing path information including origin, destination, and everything in between.
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria, String airliner) {
-		// TODO:
+		if(origin == null || destination == null){
+			ArrayList<String> al = new ArrayList<>();
+			al.add(origin);
+			al.add(destination);
+			return new BestPath(al, 0);
+		}
 		
-		return null;
+		ArrayList<String> path = new ArrayList<>();
+		Airport start = null;
+		Airport goal = null;
+		
+		for(Airport airport : airports.values()){
+			if(airport.toString().equals(origin)){
+				start = airport;
+			}
+			if(airport.toString().equals(destination)){
+				goal = airport;
+			}	
+		}
+		
+		if(start == null || goal == null)
+		{
+			return new BestPath();
+		}
+		
+		
+		//only add after we verify that there is a origin and destination in our graph
+		path.add(start.toString());
+		
+		PriorityQueue<Airport> pq = new PriorityQueue<>();
+		
+		//set start cost to 0
+		start.setCost(0);
+		pq.add(start);
+		
+		while(!pq.isEmpty()){
+			
+			Airport current = pq.remove();
+			
+			if(current.equals(goal)){
+				double pathLength = current.cost();
+				while(current.previous() != null){
+					path.add(1, current.toString());
+					current = current.previous();
+				}
+				BestPath bp = new BestPath(path, pathLength);
+				return bp;
+			}
+			
+			current.setVisited();
+			
+			for(Airport neighbor : current.connections()){
+				
+				if(!neighbor.visited()){
+					Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
+					//insert flight.average here?
+					if((neighbor.cost() > current.cost() + flight.getWeight(criteria.name())) && flight.getCarrier().contains(airliner)){
+						
+						neighbor.setPrevious(current);
+						neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
+						
+						//update priority
+						if(pq.contains(neighbor))
+						{
+							pq.remove(neighbor);							
+						}
+						pq.add(neighbor);
+						
+					}
+				}
+			}
+		}
+		
+		return new BestPath();
 	}
 
 	/**
