@@ -5,13 +5,27 @@ import java.io.FileNotFoundException;
 public class testEnvironment {
 
 	public static void main(String[] args) throws FileNotFoundException {
-		NetworkGraph test = new NetworkGraph("flights-2015-q3.csv");
+		NetworkGraph test = new NetworkGraph("CSV_Files/test10x25.csv");
+		
+		
+		
+		/*USED TO GENERATE A DOT FILE WITH VALUES BASED ON FLIGHTCRITERIA*/
+		test.airportsToDot("DotFiles/test10x25.dot", FlightCriteria.COST, null);
 		BestPath shortestDistancePath = test.getBestPath("WWL", "YVT", FlightCriteria.COST);
 		System.out.println(shortestDistancePath.toString());
 
-		NetworkGraph test2 = new NetworkGraph("flights-2015-q3.csv");
+		
+		
+		/*USED IF YOU WANT TO A DOT FILE WITH A SPECIFIC CARRIER IN MIND
+		  VALUES WILL ONLY DISPLAY IF THAT CARRIER EXISTS ON THE FLIGHT PATH
+		  VALUES PRINTED DEPEND ON THE FLIGHT CRITERIA PASSED*/
+		/*
+		NetworkGraph test2 = new NetworkGraph("CSV_Files/test10x15.csv");
+		test2.airportsToDot("DotFiles/test10x25-carriers.dot", FlightCriteria.COST, "EV");
 		BestPath shortestDistancePath2 = test2.getBestPath("WWL", "HIA", FlightCriteria.COST, "UA");
 		System.out.println(shortestDistancePath2.toString());
+		
+		*/
 	}
 
 }

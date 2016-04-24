@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -407,13 +408,12 @@ public class NetworkGraph {
 		}
 	}
 
-	public void airportsToDot(String dotFilename) {
+	public void airportsToDot(String dotFilename, FlightCriteria attr, String carriers) {
 		try (PrintWriter out = new PrintWriter(dotFilename)) {
 
-			ArrayList<Airport> graphedAirport = new ArrayList<Airport>();
 			ArrayList<Airport> getAirports = new ArrayList<Airport>();
 			String ret;
-			int label = 1;
+			String label = "";
 			out.println("digraph airports {\n\tnode [shape=record]\n");
 
 			getAirports.addAll(airports.values());
@@ -421,10 +421,28 @@ public class NetworkGraph {
 			for (Airport airport : getAirports) {
 				ret = "\t" + airport.toString() + " [label = \"<f1> " + airport.toString() + " \"]\n";
 				for (Airport destination : airport.getDestinations()) {
+					Flight flight = flightHash.get(airport.toString() + ',' + destination.toString());
+					double weight = flight.getWeight(attr.toString());
+					DecimalFormat f = new DecimalFormat("#.00");
+					
+					if(carriers != null)
+					{
+						if(flight.getCarrier().contains(carriers))
+						{
+							label = ""+f.format(weight) + ' ' + carriers;
+						}
+						else
+						{
+							label = "";
+						}
+					}
+					else{
+						label = ""+f.format(weight);
+					}
 					ret += airport.toString() + " -> " + destination.toString() + ":f1" + "[label=\"" + label + "\"]" + '\n';
 				}
 				out.println(ret);
-				label++;
+				
 			}
 
 			out.println("}");
