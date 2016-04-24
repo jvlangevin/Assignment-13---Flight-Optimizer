@@ -1,0 +1,26 @@
+digraph airports {
+	node [shape=record]
+
+	MCG [label = "<f1> MCG "]
+MCG -> XPT:f1[label="1231.49"]
+MCG -> KZF:f1[label="500.47"]
+MCG -> ENK:f1[label="870.55"]
+
+	ENK [label = "<f1> ENK "]
+ENK -> BGA:f1[label="510.88"]
+ENK -> KZF:f1[label="1491.43"]
+ENK -> XPT:f1[label="298.31"]
+
+	KZF [label = "<f1> KZF "]
+KZF -> MCG:f1[label="500.47"]
+KZF -> XPT:f1[label="873.90"]
+KZF -> BGA:f1[label="344.14"]
+
+	BGA [label = "<f1> BGA "]
+BGA -> ENK:f1[label="486.55"]
+BGA -> MCG:f1[label="450.43"]
+
+	XPT [label = "<f1> XPT "]
+XPT -> MCG:f1[label="328.20"]
+
+}

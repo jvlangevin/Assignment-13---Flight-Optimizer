@@ -1,0 +1,28 @@
+digraph airports {
+	node [shape=record]
+
+	TOL [label = "<f1> TOL "]
+TOL -> LUS:f1[label="255.39 UA"]
+TOL -> AFR:f1[label=""]
+TOL -> JIV:f1[label=""]
+
+	JIV [label = "<f1> JIV "]
+JIV -> HFI:f1[label=""]
+
+	HFI [label = "<f1> HFI "]
+HFI -> LUS:f1[label=""]
+HFI -> JIV:f1[label=""]
+HFI -> TOL:f1[label=""]
+
+	LUS [label = "<f1> LUS "]
+LUS -> AFR:f1[label="271.66 UA"]
+LUS -> TOL:f1[label="424.59 UA"]
+LUS -> HFI:f1[label=""]
+
+	AFR [label = "<f1> AFR "]
+AFR -> JIV:f1[label=""]
+AFR -> HFI:f1[label=""]
+AFR -> LUS:f1[label=""]
+AFR -> TOL:f1[label=""]
+
+}

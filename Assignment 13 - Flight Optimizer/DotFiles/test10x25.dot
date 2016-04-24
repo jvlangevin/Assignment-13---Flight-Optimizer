@@ -1,0 +1,46 @@
+digraph airports {
+	node [shape=record]
+
+	ZQZ [label = "<f1> ZQZ "]
+ZQZ -> NTR:f1[label="599.31"]
+ZQZ -> FHJ:f1[label="266.51"]
+ZQZ -> CDV:f1[label="263.06"]
+
+	NRW [label = "<f1> NRW "]
+NRW -> PZL:f1[label="235.26"]
+NRW -> CDV:f1[label="224.18"]
+NRW -> NTR:f1[label="435.53"]
+NRW -> JAP:f1[label="624.74"]
+
+	KKS [label = "<f1> KKS "]
+KKS -> CDV:f1[label="477.88"]
+KKS -> QZR:f1[label="323.34"]
+
+	PZL [label = "<f1> PZL "]
+PZL -> KKS:f1[label="426.32"]
+PZL -> NRW:f1[label="288.17"]
+PZL -> FHJ:f1[label="234.96"]
+
+	CDV [label = "<f1> CDV "]
+
+	QZR [label = "<f1> QZR "]
+QZR -> JAP:f1[label="233.81"]
+QZR -> ZQZ:f1[label="260.74"]
+
+	JAP [label = "<f1> JAP "]
+JAP -> DBF:f1[label="348.02"]
+JAP -> QZR:f1[label="233.81"]
+JAP -> FHJ:f1[label="416.04"]
+
+	DBF [label = "<f1> DBF "]
+DBF -> ZQZ:f1[label="446.20"]
+DBF -> QZR:f1[label="500.63"]
+DBF -> NTR:f1[label="688.83"]
+
+	FHJ [label = "<f1> FHJ "]
+FHJ -> NRW:f1[label="552.43"]
+
+	NTR [label = "<f1> NTR "]
+NTR -> DBF:f1[label="314.09"]
+
+}

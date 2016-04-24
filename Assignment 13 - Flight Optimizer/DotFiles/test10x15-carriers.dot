@@ -1,0 +1,35 @@
+digraph airports {
+	node [shape=record]
+
+	IRL [label = "<f1> IRL "]
+IRL -> JUA:f1[label=""]
+IRL -> WBC:f1[label=""]
+
+	ODJ [label = "<f1> ODJ "]
+
+	XCB [label = "<f1> XCB "]
+XCB -> WBC:f1[label=""]
+XCB -> JUA:f1[label="604.15 MQ"]
+
+	JKW [label = "<f1> JKW "]
+JKW -> WBC:f1[label="1135.43 MQ"]
+
+	JUA [label = "<f1> JUA "]
+JUA -> JKW:f1[label=""]
+
+	WBC [label = "<f1> WBC "]
+
+	AKC [label = "<f1> AKC "]
+AKC -> IRL:f1[label=""]
+AKC -> MHJ:f1[label=""]
+AKC -> MCQ:f1[label=""]
+
+	MCQ [label = "<f1> MCQ "]
+MCQ -> ODJ:f1[label=""]
+MCQ -> AKC:f1[label=""]
+
+	MHJ [label = "<f1> MHJ "]
+MHJ -> ODJ:f1[label="1100.74 MQ"]
+MHJ -> JUA:f1[label=""]
+
+}

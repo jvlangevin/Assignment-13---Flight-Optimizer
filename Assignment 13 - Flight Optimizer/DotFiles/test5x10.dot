@@ -1,0 +1,20 @@
+digraph airports {
+	node [shape=record]
+
+	CGY [label = "<f1> CGY "]
+CGY -> CCD:f1[label="958.75"]
+CGY -> NQP:f1[label="290.43"]
+
+	CCD [label = "<f1> CCD "]
+
+	OKC [label = "<f1> OKC "]
+OKC -> PRP:f1[label="373.24"]
+
+	NQP [label = "<f1> NQP "]
+NQP -> OKC:f1[label="633.30"]
+
+	PRP [label = "<f1> PRP "]
+PRP -> CGY:f1[label="340.35"]
+PRP -> NQP:f1[label="773.80"]
+
+}

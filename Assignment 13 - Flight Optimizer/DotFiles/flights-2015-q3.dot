@@ -1,0 +1,29 @@
+digraph airports {
+	node [shape=record]
+
+	BHF [label = "<f1> BHF "]
+BHF -> HIA:f1[label="533.97"]
+BHF -> YVT:f1[label="874.75"]
+
+	HIA [label = "<f1> HIA "]
+HIA -> WWL:f1[label="356.17"]
+HIA -> BHF:f1[label="619.24"]
+HIA -> YVT:f1[label="220.56"]
+
+	AAR [label = "<f1> AAR "]
+AAR -> WWL:f1[label="933.00"]
+
+	YVT [label = "<f1> YVT "]
+YVT -> RUJ:f1[label="255.07"]
+YVT -> WWL:f1[label="370.12"]
+
+	RUJ [label = "<f1> RUJ "]
+RUJ -> WWL:f1[label="249.86"]
+RUJ -> YVT:f1[label="428.91"]
+
+	WWL [label = "<f1> WWL "]
+WWL -> YVT:f1[label="1039.43"]
+WWL -> HIA:f1[label="970.58"]
+WWL -> BHF:f1[label="439.62"]
+
+}
