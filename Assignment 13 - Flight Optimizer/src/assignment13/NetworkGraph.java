@@ -164,8 +164,6 @@ public class NetworkGraph {
 	 * @return - An object containing path information including origin, destination, and everything in between.
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria) {
-		// TODO: First figure out what kind of path you need to get (HINT: Use a switch!) then
-		// Search for the shortest path using Dijkstra's algorithm.
 
 		if(origin == null || destination == null){
 			ArrayList<String> al = new ArrayList<>();
