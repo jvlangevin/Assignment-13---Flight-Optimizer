@@ -36,9 +36,9 @@ import java.util.SortedSet;
 public class GenerateFlightData {
 	
 	// ONLY EDIT THESE THREE VARIABLES
-	private static int edgeCount = 25;
+	private static int edgeCount = 100;
 	private static int nodeCount = 10;
-	private static String filePath = "test10x25.csv";
+	private static String filePath = "CSV_Files/test10x100.csv";
 
 	// EDITING ANYTHING BELOW THIS MAY SCREW UP MY CODE SO DO SO AT YOUR OWN RISK.
 	// BTW I do not care if you do I just wont be able to tell you why your broke it

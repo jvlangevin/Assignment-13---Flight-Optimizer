@@ -132,4 +132,96 @@ public class NetworkGraphTest {
 	}
 	
 	
+	@Test
+	public void test10Nodes100EdgesCarrier() throws FileNotFoundException {
+		NetworkGraph test = new NetworkGraph("CSV_Files/test10x100.csv");
+		
+		BestPath bp = test.getBestPath("GOO", "KUE", FlightCriteria.CANCELED, "HA" );
+		
+		/*Print details if needed */
+		//System.out.println(bp.toString());
+		
+		assertEquals("[GOO, QXR, KUE]", bp.getPath().toString());
+		assertEquals(.5, bp.getPathLength(), 1e-6);
+		
+		
+		/*Example Problem. Despite that there is a path previously discovered with cancelations, 
+		 * finding a path with cost isn't found. Why? Theory: the "cost" variable at the airport
+		 * wasn't reset when looking for a new path. 
+		 */
+		
+		/*
+		BestPath bp2 = test.getBestPath("GOO", "KUE", FlightCriteria.COST, "HA" );
+		assertEquals("[GOO, QXR, KUE]", bp2.getPath().toString());
+		assertEquals(.5, bp2.getPathLength(), 1e-6);*/
+		
+		
+		NetworkGraph test2 = new NetworkGraph("CSV_Files/test10x100.csv");
+		BestPath bp2 = test2.getBestPath("GOO", "KUE", FlightCriteria.COST, "HA" );
+		assertEquals("[GOO, QXR, KUE]", bp2.getPath().toString());
+		assertEquals(701.09, bp2.getPathLength(), 1e-6);
+	}
+	
+	@Test
+	public void test5Nodes20EdgesCarriersNoPath() throws FileNotFoundException {
+		NetworkGraph test = new NetworkGraph("CSV_Files/test5x20.csv");
+		
+		BestPath bp = test.getBestPath("JIV", "AFR", FlightCriteria.COST, "UA");
+		
+		assertEquals("[]", bp.getPath().toString());
+		assertEquals(0.0, bp.getPathLength(), 0.01);
+	}
+	
+	@Test
+	public void test5Nodes20EdgesCarriers() throws FileNotFoundException {
+		NetworkGraph test = new NetworkGraph("CSV_Files/test5x20.csv");
+		
+		BestPath bp = test.getBestPath("TOL", "AFR", FlightCriteria.COST, "UA");
+		
+		assertEquals("[TOL, LUS, AFR]", bp.getPath().toString());
+		assertEquals(527.055, bp.getPathLength(), 0.01);
+	}
+	
+	@Test
+	public void test10Nodes25EdgesCarriers() throws FileNotFoundException {
+		NetworkGraph test = new NetworkGraph("CSV_Files/test10x25.csv");
+		
+		BestPath bp = test.getBestPath("NTR", "ZQZ", FlightCriteria.CANCELED, "HA");
+		
+		assertEquals("[NTR, DBF, QZR, ZQZ]", bp.getPath().toString());
+		assertEquals(1.5, bp.getPathLength(), 0.01);
+	}
+	
+	@Test
+	public void test10Nodes15EdgesCarriers() throws FileNotFoundException {
+		
+		//*Path with flight MQ - exists, is long
+		NetworkGraph test = new NetworkGraph("CSV_Files/test10x15.csv");
+		
+		BestPath bp = test.getBestPath("XCB", "WBC", FlightCriteria.COST, "MQ");
+		
+		assertEquals("[XCB, JUA, JKW, WBC]", bp.getPath().toString());
+		assertEquals(2754.00, bp.getPathLength(), 0.01);
+		
+		
+		//Path with flight AA - exists, is direct
+		NetworkGraph test2 = new NetworkGraph("CSV_Files/test10x15.csv");
+		
+		BestPath bp2 = test2.getBestPath("XCB", "WBC", FlightCriteria.COST, "AA");
+		
+		assertEquals("[XCB, WBC]", bp2.getPath().toString());
+		assertEquals(266.96, bp2.getPathLength(), 0.01);
+		
+		
+		//Path with flight DL - doesn't exist
+		NetworkGraph test3 = new NetworkGraph("CSV_Files/test10x15.csv");
+		
+		BestPath bp3 = test.getBestPath("XCB", "WBC", FlightCriteria.COST, "DL");
+		
+		assertEquals("[]", bp3.getPath().toString());
+		assertEquals(0.0, bp3.getPathLength(), 0.01);
+		
+		
+	}
+	
 }
