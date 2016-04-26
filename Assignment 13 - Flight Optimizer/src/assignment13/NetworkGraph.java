@@ -165,6 +165,8 @@ public class NetworkGraph {
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria) {
 
+		ArrayList<Airport> visited = new ArrayList<Airport>();
+		
 		if(origin == null || destination == null){
 			ArrayList<String> al = new ArrayList<>();
 			al.add(origin);
@@ -176,6 +178,14 @@ public class NetworkGraph {
 		Airport start = null;
 		Airport goal = null;
 		
+		if(airports.containsKey(origin))
+			start = airports.get(origin);
+		if(airports.containsKey(destination))
+			goal = airports.get(destination);
+		
+		
+		
+		/* -- replaced with above code
 		for(Airport airport : airports.values()){
 			if(airport.toString().equals(origin)){
 				start = airport;
@@ -184,6 +194,8 @@ public class NetworkGraph {
 				goal = airport;
 			}	
 		}
+		*/
+		
 		
 		if(start == null || goal == null)
 		{
@@ -198,10 +210,12 @@ public class NetworkGraph {
 		//set start cost to 0
 		start.setCost(0);
 		pq.add(start);
+		visited.add(start);
 		
 		while(!pq.isEmpty()){
 			
 			Airport current = pq.remove();
+			
 			
 			if(current.equals(goal)){
 				double pathLength = current.cost();
@@ -210,12 +224,14 @@ public class NetworkGraph {
 					current = current.previous();
 				}
 				
-				for(Airport airport : this.airports.values()){
+				for(Airport airport : visited){
 					airport.setCost(Double.MAX_VALUE);
 					airport.setNotVisited();
+					airport.setPrevious(null);
 				}
 				
 				BestPath bp = new BestPath(path, pathLength);
+				pq.clear();
 				return bp;
 			}
 			
@@ -236,6 +252,7 @@ public class NetworkGraph {
 							pq.remove(neighbor);							
 						}
 						pq.add(neighbor);
+						visited.add(neighbor);
 						
 					}
 				}
@@ -246,6 +263,7 @@ public class NetworkGraph {
 			airport.setCost(Double.MAX_VALUE);
 			airport.setNotVisited();
 		}
+		pq.clear();
 		return new BestPath();
 	}
 
@@ -326,6 +344,7 @@ public class NetworkGraph {
 				}
 				
 				BestPath bp = new BestPath(path, pathLength);
+				pq.clear();
 				return bp;
 			}
 			
@@ -357,7 +376,7 @@ public class NetworkGraph {
 			airport.setCost(Double.MAX_VALUE);
 			airport.setNotVisited();
 		}
-		
+		pq.clear();
 		return new BestPath();
 	}
 
