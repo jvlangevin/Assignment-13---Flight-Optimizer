@@ -190,7 +190,6 @@ public class NetworkGraph {
 			return new BestPath();
 		}
 		
-		
 		//only add after we verify that there is a origin and destination in our graph
 		path.add(start.toString());
 		
@@ -210,6 +209,12 @@ public class NetworkGraph {
 					path.add(1, current.toString());
 					current = current.previous();
 				}
+				
+				for(Airport airport : this.airports.values()){
+					airport.setCost(Double.MAX_VALUE);
+					airport.setNotVisited();
+				}
+				
 				BestPath bp = new BestPath(path, pathLength);
 				return bp;
 			}
@@ -226,9 +231,6 @@ public class NetworkGraph {
 						neighbor.setPrevious(current);
 						neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
 						
-						//update priority? since priority is determined by cost
-						//re-entering into queue updates it's priority?
-						//or does updating the cost itself change it's priority?
 						if(pq.contains(neighbor))
 						{
 							pq.remove(neighbor);							
@@ -240,6 +242,10 @@ public class NetworkGraph {
 			}
 		}
 		
+		for(Airport airport : this.airports.values()){
+			airport.setCost(Double.MAX_VALUE);
+			airport.setNotVisited();
+		}
 		return new BestPath();
 	}
 
@@ -313,6 +319,12 @@ public class NetworkGraph {
 					path.add(1, current.toString());
 					current = current.previous();
 				}
+				
+				for(Airport airport : this.airports.values()){
+					airport.setCost(Double.MAX_VALUE);
+					airport.setNotVisited();
+				}
+				
 				BestPath bp = new BestPath(path, pathLength);
 				return bp;
 			}
@@ -339,6 +351,11 @@ public class NetworkGraph {
 					}
 				}
 			}
+		}
+		
+		for(Airport airport : this.airports.values()){
+			airport.setCost(Double.MAX_VALUE);
+			airport.setNotVisited();
 		}
 		
 		return new BestPath();
@@ -448,6 +465,12 @@ public class NetworkGraph {
 		catch (IOException e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException{
+		
+		NetworkGraph ng = new NetworkGraph("CSV_Files/test10x15.csv");
+		ng.airportsToDot("test10x15-time.dot", FlightCriteria.TIME, null);
 	}
 	
 }

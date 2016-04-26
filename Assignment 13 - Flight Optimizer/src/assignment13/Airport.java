@@ -97,6 +97,13 @@ public class Airport implements Comparable{
 	}
 	
 	/**
+	 * Marks this airport as not visited.
+	 */
+	public void setNotVisited(){
+		this.visited = false;
+	}
+	
+	/**
 	 * Returns the current cost value of this airport.
 	 */
 	public double cost(){
