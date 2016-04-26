@@ -2,6 +2,12 @@ package assignment13;
 
 import java.io.FileNotFoundException;
 
+
+/**
+ * A generic environment to test code as it's implemented
+ * @author Nathan
+ *
+ */
 public class testEnvironment {
 
 	public static void main(String[] args) throws FileNotFoundException {

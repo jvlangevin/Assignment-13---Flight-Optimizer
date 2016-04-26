@@ -121,7 +121,7 @@ public class NetworkGraph {
 
 				Flight newFlight = new Flight(origin, destination, carrier, delay, canceled, time, distance, cost);
 
-				// use this to generate averages from origin to destination regardless of carrier
+				// use this to add values from one flight to another
 				try {
 					flightHashAdd(newFlight);
 				}
@@ -388,7 +388,7 @@ public class NetworkGraph {
 
 	/**
 	 * Writes to a file the Average values for a flight path as well as each airports destinations and associated
-	 * average flight details. Used to make sure our network is being built correctly
+	 * average flight details. Used to make sure our network is being built correctly. Method used for testing only.
 	 */
 	public void flightHashAverage() {
 		try {
@@ -423,6 +423,20 @@ public class NetworkGraph {
 		}
 	}
 
+	
+	/**
+	 * Used to generate a dot graph to see if the airport/flight graph is built correctly.
+	 * @param dotFilename 
+	 * 		- the filename the dot graph will be saved as
+	 * @param attr 	
+	 *		- the flight criteria. this value will be applied as a label to the dot graph and rounded
+	 *		to two decimal places for readibility
+	 * @param carriers
+	 * 		- pass as either a valid Carrier name or pass as null. if passed as null, all flights will
+	 * 		be labeled with the weighted cost. if passed with a valid flight carrier in the network the
+	 * 		label will contain the cost plus the carrier. only flights with that carrier will be labeled.
+	 * 
+	 */
 	public void airportsToDot(String dotFilename, FlightCriteria attr, String carriers) {
 		try (PrintWriter out = new PrintWriter(dotFilename)) {
 

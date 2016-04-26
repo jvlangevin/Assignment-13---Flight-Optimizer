@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 public class Airport implements Comparable{
 	
+	
+	//Member variables
 	private String code;
 	private boolean visited;
 	private ArrayList<Airport> connections;
 	private Airport previous;
 	private double cost;
 	
+	/**
+	 * Constructor. Constructs an airport will will act as a node for graphing purposes.
+	 * @param code
+	 * 			- three character value that represents the airport
+	 */
 	public Airport(String code){
-		this.code = code;
-		this.visited = false;
-		this.connections = new ArrayList<>();
-		this.previous = null;
-		this.cost = Double.MAX_VALUE;
+		this.code = code; 						//name of the airport
+		this.visited = false; 					//whether it's been visisted when finding a path
+		this.connections = new ArrayList<>(); 	// a list of destinations from this airport
+		this.previous = null; 					// when finding a path, this is the airport that was before this one
+		this.cost = Double.MAX_VALUE; 			//the accrued weight in the path. initialized as a pseudo-infinity
 	}
 	
 	/**
@@ -44,7 +51,7 @@ public class Airport implements Comparable{
 	}
 	
 	/**
-	 * Returns the code of the airport
+	 * Returns the code ("name") of the airport
 	 */
 	public String toString()
 	{
@@ -52,7 +59,7 @@ public class Airport implements Comparable{
 	}
 	
 	/**
-	 * @return the string version of ArrayList<Airport> connections.
+	 * @return the string version of ArrayList<Airport> connections. Used for data testing.
 	 */
 	public String listDestinations()
 	{
@@ -97,7 +104,7 @@ public class Airport implements Comparable{
 	}
 	
 	/**
-	 * Marks this airport as not visited.
+	 * Marks this airport as not visited. Used when resetting a path
 	 */
 	public void setNotVisited(){
 		this.visited = false;
@@ -118,11 +125,15 @@ public class Airport implements Comparable{
 		this.cost = newCost;
 	}
 
+	/**
+	 * Comparator used to determine which cost (accumulated weight) is less between airports.
+	 * This determines the position in a priority queue.
+	 */
 	@Override
 	public int compareTo(Object o) {
 		//to allow override, param is an object
 		
-		//cast o, an object, as an aiport.
+		//cast o, an object, as an airport.
 		Airport destination = (Airport)o;
 		if(this.cost() < destination.cost()){
 			return -1;
