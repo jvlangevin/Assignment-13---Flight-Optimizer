@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 import java.io.FileNotFoundException;
 import org.junit.Test;
 
-
-
 public class NetworkGraphTest {
 
 	@Test
@@ -210,19 +208,19 @@ public class NetworkGraphTest {
 		BestPath bpCost = test.getBestPath("AKC", "JKW", FlightCriteria.COST);
 		assertEquals("[AKC, IRL, JUA, JKW]", bpCost.getPath().toString());
 		assertEquals(1899.03, bpCost.getPathLength(), 0.01);
-		
+
 		BestPath bpDelay = test.getBestPath("AKC", "JKW", FlightCriteria.DELAY);
 		assertEquals("[AKC, IRL, JUA, JKW]", bpDelay.getPath().toString());
 		assertEquals(495, bpDelay.getPathLength(), 1);
-		
+
 		BestPath bpDistance = test.getBestPath("AKC", "JKW", FlightCriteria.DISTANCE);
 		assertEquals("[AKC, IRL, JUA, JKW]", bpDistance.getPath().toString());
 		assertEquals(5082, bpDistance.getPathLength(), 1);
-		
+
 		BestPath bpCanceled = test.getBestPath("AKC", "JKW", FlightCriteria.CANCELED);
 		assertEquals("[AKC, IRL, JUA, JKW]", bpCanceled.getPath().toString());
-		assertEquals(1, bpCanceled.getPathLength(), 1);		
-		
+		assertEquals(1, bpCanceled.getPathLength(), 1);
+
 		BestPath bpTime = test.getBestPath("AKC", "JKW", FlightCriteria.TIME);
 		assertEquals("[AKC, IRL, JUA, JKW]", bpTime.getPath().toString());
 		assertEquals(735, bpTime.getPathLength(), 1);

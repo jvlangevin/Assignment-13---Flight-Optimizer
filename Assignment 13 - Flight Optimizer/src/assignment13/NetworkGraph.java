@@ -178,14 +178,16 @@ public class NetworkGraph {
 		Airport start = null;
 		Airport goal = null;
 		
-		if(airports.containsKey(origin))
+		// Retrieve the origin and destination airports
+		if(airports.containsKey(origin)){
 			start = airports.get(origin);
-		if(airports.containsKey(destination))
+		}
+		if(airports.containsKey(destination)){
 			goal = airports.get(destination);	
+		}
 		
-		
-		if(start == null || goal == null)
-		{
+		// If the origin or destination airports are not contained in this graph, return an empty path
+		if(start == null || goal == null){
 			return new BestPath();
 		}
 		
@@ -198,13 +200,13 @@ public class NetworkGraph {
 		start.setCost(0);
 		pq.add(start);
 		
-		
 		while(!pq.isEmpty()){
 			
 			Airport current = pq.remove();
 			current.setVisited();
 			adjustedAirports.add(start);
 			
+			// If the current airport is the destination, backtrack to the origin and reconstruct the path
 			if(current.equals(goal)){
 				double pathLength = current.cost();
 				while(current.previous() != null){
@@ -230,8 +232,6 @@ public class NetworkGraph {
 		pq.clear();
 		return new BestPath();
 	}
-
-	
 
 	/**
 	 * <p>
@@ -272,14 +272,16 @@ public class NetworkGraph {
 		Airport start = null;
 		Airport goal = null;
 		
-		if(airports.containsKey(origin))
+		// Retrieve the origin and destination airports
+		if(airports.containsKey(origin)){
 			start = airports.get(origin);
-		if(airports.containsKey(destination))
+		}
+		if(airports.containsKey(destination)){
 			goal = airports.get(destination);	
+		}
 		
-		
-		if(start == null || goal == null)
-		{
+		// If the start or destination airports are not contained in this graph, return an empty path
+		if(start == null || goal == null){
 			return new BestPath();
 		}
 		
@@ -301,6 +303,7 @@ public class NetworkGraph {
 			current.setVisited();
 			adjustedAirports.add(start);
 			
+			// If the current airport is the destination, backtrack to the origin and reconstruct the path
 			if(current.equals(goal)){
 				double pathLength = current.cost();
 				while(current.previous() != null){
@@ -332,7 +335,7 @@ public class NetworkGraph {
 	 * 
 	 * Helper method. 
 	 * Used to evaluate if a connecting airport is going to be entered into the priority queue
-	 * By evaluating if the airport has already been visited in our path and if the cost to
+	 * by evaluating if the airport has already been visited in our path and if the cost to
 	 * get there is less than the cost it's taken a different path to get there.
 	 * If airliner is passed, only neighbors that are attached in the graph by a specific
 	 * airline carrier will be added. If airliner is irrelevant and passed as a null, then
@@ -383,8 +386,10 @@ public class NetworkGraph {
 		}
 	}
 
-	
-	
+	/**
+	 * Resets the cost, visited, and previous values of the airports in the specified ArrayList.
+	 * @param adjustedAirports - an ArrayList containing all airports that were visited while searching for a best path
+	 */
 	private void resetAdjustedAirports(ArrayList<Airport> adjustedAirports) {
 		for(Airport airport : adjustedAirports){
 			airport.setCost(Double.MAX_VALUE);
@@ -392,7 +397,6 @@ public class NetworkGraph {
 			airport.setPrevious(null);
 		}
 	}
-
 
 	/**
 	 * Adds a flight to a hashmap for flights. If the flight path (origin to destination) already exists, it adds the
@@ -405,7 +409,6 @@ public class NetworkGraph {
 	 */
 	private void flightHashAdd(Flight inputFlight) throws Exception {
 		String key = inputFlight.destinationString();
-		// System.out.println(key);
 
 		if (flightHash.get(key) == null) {
 			flightHash.put(key, inputFlight);
@@ -416,10 +419,8 @@ public class NetworkGraph {
 			// the path
 			origFlight.addFlights(inputFlight);
 		}
-
 	}
 
-	
 	/**
 	 * Used to generate a dot graph to see if the airport/flight graph is built correctly.
 	 * @param dotFilename 
@@ -475,12 +476,6 @@ public class NetworkGraph {
 		catch (IOException e) {
 			System.out.println(e);
 		}
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException{
-		
-		NetworkGraph ng = new NetworkGraph("CSV_Files/test10x15.csv");
-		ng.airportsToDot("test10x15-time.dot", FlightCriteria.TIME, null);
 	}
 	
 }
