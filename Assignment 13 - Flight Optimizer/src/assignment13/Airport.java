@@ -2,6 +2,19 @@ package assignment13;
 
 import java.util.ArrayList;
 
+
+
+/**
+ * This class defines what an Airport is, stores and does.
+ * An airport is either the origin of a flight or a destination/connection. 
+ * An airport is commonly identified by a three character uppercase string (Code). Airports
+ * have destinations (which again are airports), which are stored as an ArrayList. 
+ * 
+ * Airports also contain variables visited (boolean), previous (airport) and cost (path weight)
+ * which are used when constructing a path by flight criteria. 
+ * @author Nathan and Jason
+ *
+ */
 public class Airport implements Comparable{
 	
 	
@@ -56,14 +69,6 @@ public class Airport implements Comparable{
 	public String toString()
 	{
 		return this.code;
-	}
-	
-	/**
-	 * @return the string version of ArrayList<Airport> connections. Used for data testing.
-	 */
-	public String listDestinations()
-	{
-		return connections.toString();
 	}
 	
 	/**

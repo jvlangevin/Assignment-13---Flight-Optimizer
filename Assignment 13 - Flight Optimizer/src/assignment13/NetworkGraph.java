@@ -165,7 +165,7 @@ public class NetworkGraph {
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria) {
 
-		ArrayList<Airport> visited = new ArrayList<Airport>();
+		ArrayList<Airport> adjustedAirports = new ArrayList<Airport>();
 		
 		if(origin == null || destination == null){
 			ArrayList<String> al = new ArrayList<>();
@@ -181,20 +181,7 @@ public class NetworkGraph {
 		if(airports.containsKey(origin))
 			start = airports.get(origin);
 		if(airports.containsKey(destination))
-			goal = airports.get(destination);
-		
-		
-		
-		/* -- replaced with above code
-		for(Airport airport : airports.values()){
-			if(airport.toString().equals(origin)){
-				start = airport;
-			}
-			if(airport.toString().equals(destination)){
-				goal = airport;
-			}	
-		}
-		*/
+			goal = airports.get(destination);	
 		
 		
 		if(start == null || goal == null)
@@ -207,15 +194,16 @@ public class NetworkGraph {
 		
 		PriorityQueue<Airport> pq = new PriorityQueue<>();
 		
-		//set start cost to 0
+		//set start cost to 0 and add to the priority queue
 		start.setCost(0);
 		pq.add(start);
-		visited.add(start);
+		
 		
 		while(!pq.isEmpty()){
 			
 			Airport current = pq.remove();
-			
+			current.setVisited();
+			adjustedAirports.add(start);
 			
 			if(current.equals(goal)){
 				double pathLength = current.cost();
@@ -224,48 +212,26 @@ public class NetworkGraph {
 					current = current.previous();
 				}
 				
-				for(Airport airport : visited){
-					airport.setCost(Double.MAX_VALUE);
-					airport.setNotVisited();
-					airport.setPrevious(null);
-				}
+				resetAdjustedAirports(adjustedAirports);
 				
 				BestPath bp = new BestPath(path, pathLength);
 				pq.clear();
 				return bp;
 			}
 			
-			current.setVisited();
-			
-			for(Airport neighbor : current.connections()){
-				
-				if(!neighbor.visited()){
-					Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
-					//insert flight.average here?
-					if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name())){
-						
-						neighbor.setPrevious(current);
-						neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
-						
-						if(pq.contains(neighbor))
-						{
-							pq.remove(neighbor);							
-						}
-						pq.add(neighbor);
-						visited.add(neighbor);
-						
-					}
-				}
-			}
+			//null indicates we don't care about what airliner we are using
+			//method is used to add any connecting airports to the PQ from our current airport
+			//if the cost to get there is the smallest value
+			addNeighbors(criteria, adjustedAirports, pq, current, null);
 		}
 		
-		for(Airport airport : this.airports.values()){
-			airport.setCost(Double.MAX_VALUE);
-			airport.setNotVisited();
-		}
+		//reset values so existing graph can be used again
+		resetAdjustedAirports(adjustedAirports);
 		pq.clear();
 		return new BestPath();
 	}
+
+	
 
 	/**
 	 * <p>
@@ -292,6 +258,9 @@ public class NetworkGraph {
 	 * @return - An object containing path information including origin, destination, and everything in between.
 	 */
 	public BestPath getBestPath(String origin, String destination, FlightCriteria criteria, String airliner) {
+		
+		ArrayList<Airport> adjustedAirports = new ArrayList<Airport>();
+		
 		if(origin == null || destination == null){
 			ArrayList<String> al = new ArrayList<>();
 			al.add(origin);
@@ -303,20 +272,16 @@ public class NetworkGraph {
 		Airport start = null;
 		Airport goal = null;
 		
-		for(Airport airport : airports.values()){
-			if(airport.toString().equals(origin)){
-				start = airport;
-			}
-			if(airport.toString().equals(destination)){
-				goal = airport;
-			}	
-		}
+		if(airports.containsKey(origin))
+			start = airports.get(origin);
+		if(airports.containsKey(destination))
+			goal = airports.get(destination);	
+		
 		
 		if(start == null || goal == null)
 		{
 			return new BestPath();
 		}
-		
 		
 		//only add after we verify that there is a origin and destination in our graph
 		path.add(start.toString());
@@ -325,11 +290,16 @@ public class NetworkGraph {
 		
 		//set start cost to 0
 		start.setCost(0);
+		
+		//add starting airport to pq, mark as visited
 		pq.add(start);
+		
 		
 		while(!pq.isEmpty()){
 			
 			Airport current = pq.remove();
+			current.setVisited();
+			adjustedAirports.add(start);
 			
 			if(current.equals(goal)){
 				double pathLength = current.cost();
@@ -338,47 +308,91 @@ public class NetworkGraph {
 					current = current.previous();
 				}
 				
-				for(Airport airport : this.airports.values()){
-					airport.setCost(Double.MAX_VALUE);
-					airport.setNotVisited();
-				}
+				resetAdjustedAirports(adjustedAirports);
 				
 				BestPath bp = new BestPath(path, pathLength);
 				pq.clear();
 				return bp;
 			}
 			
-			current.setVisited();
-			
-			for(Airport neighbor : current.connections()){
+			//method is used to add any connecting airports to the PQ from our current airport
+			//if the cost to get there is the smallest value. Filters out connections that
+			//don't use the airliner.
+			addNeighbors(criteria, adjustedAirports, pq, current, airliner);
+		}
+		
+		//reset values so existing graph can be used again
+		resetAdjustedAirports(adjustedAirports);
+		pq.clear();
+		return new BestPath();
+	}
+
+	
+	/**
+	 * 
+	 * Helper method. 
+	 * Used to evaluate if a connecting airport is going to be entered into the priority queue
+	 * By evaluating if the airport has already been visited in our path and if the cost to
+	 * get there is less than the cost it's taken a different path to get there.
+	 * If airliner is passed, only neighbors that are attached in the graph by a specific
+	 * airline carrier will be added. If airliner is irrelevant and passed as a null, then
+	 * it will not filter neighbors by airliner. 
+	 * 
+	 * @param criteria - 	   - the criteria that determines our shortest path
+	 * @param adjustedAirports - a collection of airports we've made adjustments to, so we can reset
+	 * @param pq			   - the priority queue we're working on
+	 * @param current		   - the current airport that's been dequeued
+	 * @param airliner		   - a filtering parameter that forces travel through a specific carrier, set to null if carrier is irrelevant
+	 */
+	private void addNeighbors(FlightCriteria criteria, ArrayList<Airport> adjustedAirports, PriorityQueue<Airport> pq,
+			Airport current, String airliner) {
+		
+		String resetAirliner = airliner;
+		for(Airport neighbor : current.connections()){
+
+			//if the neighboring airport hasn't been popped yet, check if a better path to it exists
+			if(!neighbor.visited()){
+				Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
 				
-				if(!neighbor.visited()){
-					Flight flight = flightHash.get(current.toString()+ ',' + neighbor.toString());
-					//insert flight.average here?
-					if((neighbor.cost() > current.cost() + flight.getWeight(criteria.name())) && flight.getCarrier().contains(airliner)){
-						
-						neighbor.setPrevious(current);
-						neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
-						
-						//update priority
-						if(pq.contains(neighbor))
-						{
-							pq.remove(neighbor);							
-						}
-						pq.add(neighbor);
-						
+				//if airliner is null, set airliner to the first carrier in the flight, which the next condition will verify is present
+				if(resetAirliner == null)
+				{
+					airliner = flight.getCarrier().get(0);
+				}
+				
+				if(neighbor.cost() > current.cost() + flight.getWeight(criteria.name()) && flight.getCarrier().contains(airliner)){
+					
+					neighbor.setPrevious(current);
+					neighbor.setCost(current.cost() + flight.getWeight(criteria.name()));
+					
+					//if neighbor is already in pq due to another path
+					//and the new cost is lower, remove it from queue, 
+					//and then reinsert to reposition to potential better priority
+					if(pq.contains(neighbor))
+					{
+						pq.remove(neighbor);							
+					}
+					pq.add(neighbor);
+					
+					//marks neighbor as having adjusted values in order to reset
+					if(!adjustedAirports.contains(neighbor)){
+						adjustedAirports.add(neighbor);
 					}
 				}
 			}
 		}
-		
-		for(Airport airport : this.airports.values()){
+	}
+
+	
+	
+	private void resetAdjustedAirports(ArrayList<Airport> adjustedAirports) {
+		for(Airport airport : adjustedAirports){
 			airport.setCost(Double.MAX_VALUE);
 			airport.setNotVisited();
+			airport.setPrevious(null);
 		}
-		pq.clear();
-		return new BestPath();
 	}
+
 
 	/**
 	 * Adds a flight to a hashmap for flights. If the flight path (origin to destination) already exists, it adds the
@@ -400,46 +414,9 @@ public class NetworkGraph {
 			Flight origFlight = flightHash.get(key);
 			// if we are adding a new flight that has an existing origin to destination flight, print these so I can see
 			// the path
-			flightHash.replace(key, origFlight.addFlights(inputFlight));
+			origFlight.addFlights(inputFlight);
 		}
 
-	}
-
-	/**
-	 * Writes to a file the Average values for a flight path as well as each airports destinations and associated
-	 * average flight details. Used to make sure our network is being built correctly. Method used for testing only.
-	 */
-	public void flightHashAverage() {
-		try {
-			File file = new File("FlightAverages.txt");
-			FileWriter fileWriter = new FileWriter(file);
-			fileWriter.write("Flight Details: " + '\n');
-			for (Flight flight : flightHash.values()) {
-				fileWriter.write("Before Avg " + flight.toString() + '\n');
-				flight.averageFlight();
-				fileWriter.write("After avg: " + flight.toString() + '\n');
-			}
-			fileWriter.write('\n' + "Airport Destinations: " + '\n');
-			for (Airport origin : airports.values()) {
-				fileWriter.write("Origin: " + origin.toString() + " Destinations: " + origin.listDestinations() + '\n');
-
-				ArrayList<Airport> destinations = origin.getDestinations();
-				for (Airport destination : destinations) {
-					Flight flight = flightHash.get(origin.toString() + "," + destination.toString());
-					fileWriter.write(flight.toString() + '\n');
-				}
-			}
-			fileWriter.write('\n' + "HIA connections and their destinations: " + '\n');
-			Airport HIA = airports.get("HIA");
-			for (Airport destination : HIA.getDestinations()) {
-				fileWriter.write("Origin: " + destination.toString() + " Destinations: " + destination.listDestinations() + '\n');
-			}
-			fileWriter.flush();
-			fileWriter.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	

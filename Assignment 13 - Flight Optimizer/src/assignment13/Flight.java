@@ -2,6 +2,16 @@ package assignment13;
 
 import java.util.ArrayList;
 
+
+/**
+ * This class defines what is a flight, what it contains and what it does.
+ * A flight is a path between two airports, an origin and a destination. 
+ * Each flight has differing flight criteria: carriers, time delay, previous cancellations,
+ * time of flight, distance of flight and a cost (money). 
+ * 
+ * @author Nathan and Jason
+ *
+ */
 public class Flight {
 
 	private Airport origin;
@@ -43,25 +53,6 @@ public class Flight {
 	}
 
 	/**
-	 * Constructor Used for processing flight addition. Carriers is passed as an array list of strings for
-	 * each carrier from previous additions
-	 */
-	public Flight(Airport origin, Airport destination, ArrayList<String> carriers, double newDelay, double canceled,
-			double newTime, double newDistance, double cost, double newNumFlights){
-
-		this.origin = origin;
-		this.destination = destination;
-		this.carrier = carriers; //when adding a flight, all carriers from previous additions are passed as an arrayList
-		this.delay = newDelay;
-		this.canceled = canceled;
-		this.time = newTime;
-		this.distance = newDistance;
-		this.cost = cost;
-		this.numFlights = newNumFlights;
-	}
-
-	
-	/**
 	 * Returns each flightpath's details.
 	 */
 	public String toString() {
@@ -82,152 +73,44 @@ public class Flight {
 	}
 
 	/**
-	 * Returns this flight's origin
-	 */
-	public Airport getOrigin() {
-		return this.origin;
-	}
-
-	/**
-	 * Returns this flights destination
-	 */
-	public Airport getDestination() {
-		return this.destination;
-	}
-
-	/**
-	 * Returns this flights carrier or carriers from previous additions.
+	 * Returns the carriers for a specific flight path
 	 * @return
 	 */
-	public ArrayList<String> getCarrier() {
-		return this.carrier;
+	public ArrayList<String> getCarrier()
+	{
+		return carrier;
 	}
 
 	/**
-	 * gets the delay for this flight
-	 * @return
+	 * Takes a flight from a parameter and adds it to this flight.
+	 * @param inputFlight
+	 * @throws Exception
 	 */
-	public double getDelay() {
+	public void addFlights(Flight inputFlight) throws Exception {
 
-		return this.delay;
-	}
-
-	/**
-	 * Used to add on to this flights delay
-	 * @param delayInput - the value to increase the delay by
-	 * @return
-	 */
-	public double addDelay(double delayInput) {
-
-		return this.delay += delayInput;
-	}
-
-	/**
-	 * @return the travel time of this flight
-	 */
-	public double getTime() {
-		return this.time;
-	}
-
-	/**
-	 * @param time the value of which to increase the travel time by
-	 * @return the new total travel time
-	 */
-	public double addTime(double time) {
-		return this.time += time;
-	}
-
-	
-	/**
-	 * @return the distance the flight took
-	 */
-	public double getDistance() {
-		return this.distance;
-	}
-
-	/**
-	 * @param distance - the value which will be added to existing travel distance
-	 * @return the new distance after adding
-	 */
-	public double addDistance(double distance) {
-		return this.distance += distance;
-	}
-
-	/**
-	 * gets the cost of this flight
-	 * @return the cost
-	 */
-	public double getCost() {
-		return this.cost;
-	}
-
-	/**
-	 * @param cost -the value to add on to our existing cost
-	 * @return the new cost
-	 */
-	public double addCost(double cost) {
-		return this.cost += cost;
-	}
-
-	/**
-	 * @return the number of existing flights with exact origin and destinations
-	 */
-	public double getNumFlights() {
-		return this.numFlights;
-	}
-
-	/**
-	 * @param numFlights the value to add to existing number of flights
-	 * @return the new number of flights
-	 */
-	public double addNumFlights(double numFlights) {
-		return this.numFlights += numFlights;
-	}
-
-	
-	/**
-	 * This method takes the flight it's called on and an input flight and adds the values
-	 * together if the flight path's match. 
-	 * @param inputFlight - the second flight we are adding to this flight
-	 * @return a new flight of the combined totals
-	 * @throws Exception - if someone add's two flights with incorrect path's
-	 */
-	public Flight addFlights(Flight inputFlight) throws Exception {
-
+		//you can not add flights if the origin and destinations between two flights don't match
 		if (!(this.destinationString().equals(inputFlight.destinationString()))) {
 			throw new Exception("You are adding two flights with incompatible origin and destinations");
 		}
 
-		/*
-		 * for if we need to filter out cancelled flights else if(this.isCanceled() || inputFlight.isCanceled()) { throw
-		 * new Exception("One of your flights is a cancelled flight."); }
-		 */
+	
 		else {
 
-			ArrayList<String> newCarriers = new ArrayList<>();
-
-			for (String carrier : this.getCarrier()) {
-				if (!newCarriers.contains(carrier)) {
-					newCarriers.add(carrier);
-				}
-			}
-			for (String carrier : inputFlight.getCarrier()) {
-				if (!newCarriers.contains(carrier)) {
-					newCarriers.add(carrier);
+			//adds the carrier to our existing ArrayList
+			for (String newCarrier : inputFlight.carrier) {
+				if (!this.carrier.contains(newCarrier)) {
+					this.carrier.add(newCarrier);
 				}
 			}
 
-			double newDelay = this.addDelay(inputFlight.getDelay());
-			double newTime = this.addTime(inputFlight.getTime());
-			double newDistance = this.addDistance(inputFlight.getDistance());
-			double newCost = this.addCost(inputFlight.getCost());
-			double newNumFlights = this.addNumFlights(inputFlight.getNumFlights());
-			double newCanceled = this.canceled + inputFlight.canceled;
+			//adds each flight value from input to existing, including # of flights which is used for averaging
+			this.delay += inputFlight.delay;
+			this.time += inputFlight.time;
+			this.distance += inputFlight.distance;
+			this.cost += inputFlight.cost;
+			this.numFlights += inputFlight.numFlights;
+			this.canceled += inputFlight.canceled;
 
-			Flight newFlight = new Flight(this.origin, this.destination, newCarriers, newDelay, newCanceled, newTime, newDistance,
-					newCost, newNumFlights);
-
-			return newFlight;
 		}
 
 	}
@@ -239,21 +122,14 @@ public class Flight {
 	 */
 	public void averageFlight() {
 
-		this.delay = this.getDelay() / numFlights;
-		this.time = this.getTime() / numFlights;
-		this.distance = this.getDistance() / numFlights;
-		this.cost = this.getCost() / numFlights;
-		this.canceled = canceled / numFlights;
+		this.delay = this.delay / numFlights;
+		this.time = this.time / numFlights;
+		this.distance = this.distance / numFlights;
+		this.cost = this.cost / numFlights;
+		this.canceled = this.canceled / numFlights;
 		this.numFlights = 1;
 	}
 	
-	public Airport origin(){
-		return origin;
-	}
-	
-	public Airport destination(){
-		return destination;
-	}
 	
 	/**
 	 * Returns the weight value of this flight based on the specified flight attribute.
